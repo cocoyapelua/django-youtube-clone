@@ -1,12 +1,12 @@
 from django.contrib import admin
-from .models import Video, Comment, Like, History
+from .models import Video, Comment, Interaction, History
 
 
 # Register your models here.
 
 
 class LikeInline(admin.TabularInline):
-    model = Like
+    model = Interaction
     extra = 0
 
 

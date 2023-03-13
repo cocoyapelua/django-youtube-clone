@@ -28,8 +28,8 @@
                     </div>
                     {% if user.is_authenticated %}
                         <div class="col-2 text-end">
-                            <a href="{% url 'video_like' pk=video.video like='like' %}">Like {{ video.get_likes }}</a>
-                            <a href="{% url 'video_like' pk=video.video like='dislike' %}">Dislike {{ video.get_dislikes }}</a>
+                            <a href="{% url 'video_like' pk=video.video like='LIKE' %}">Like {{ video.get_likes }}</a>
+                            <a href="{% url 'video_like' pk=video.video like='DISLIKE' %}">Dislike {{ video.get_dislikes }}</a>
                         </div>
                     {% else %}
                         <div class="col-2 text-end">

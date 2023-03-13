@@ -1,7 +1,9 @@
 from django.test import TestCase, Client
-from accounts.models import CustomUser
-from .models import Video, Comment, History, Like
 from django.urls import reverse
+
+from accounts.models import CustomUser
+from .models import Video, Comment, History, Interaction
+
 
 # Create your tests here.
 
@@ -15,7 +17,7 @@ def create_comment(comment, user, video):
 
 
 def create_like(user, video, like):
-    return Like.objects.create(user=user, video=video, like=like, dislike=not like)
+    return Interaction.objects.create(user=user, video=video, interaction_type=like)
 
 
 def create_history(user, video, date):
@@ -38,9 +40,9 @@ class HistoryTest(TestCase):
 
     def test_history(self):  # test if history is sorted by date
         self.client.login(username='testuser', password='12345')
-        video1 = create_video('test', 'test', 'test', self.user)
-        video2 = create_video('test2', 'test2', 'test2', self.user)
-        video3 = create_video('test3', 'test3', 'test3', self.user)
+        video1 = create_video('test', 'test', 'https://www.youtube.com/watch?v=wSTYIyQxfPQ', self.user)
+        video2 = create_video('test2', 'test2', 'https://www.youtube.com/watch?v=xAz_DzPUjrM', self.user)
+        video3 = create_video('test3', 'test3', 'https://www.youtube.com/watch?v=DviID8Ni7Ns', self.user)
 
         history1 = create_history(self.user, video1, '2023-03-11 02:36:13')
         history2 = create_history(self.user, video2, '2023-03-12 02:36:13')
@@ -57,13 +59,13 @@ class PopularTest(TestCase):
         self.client = Client()
 
     def test_popular_order(self):
-        video1 = create_video('test', 'test', 'test', self.user)
-        video2 = create_video('test2', 'test2', 'test2', self.user)
-        video3 = create_video('test3', 'test3', 'test3', self.user)
+        video1 = create_video('test', 'test', 'https://www.youtube.com/watch?v=wSTYIyQxfPQ', self.user)
+        video2 = create_video('test2', 'test2', 'https://www.youtube.com/watch?v=xAz_DzPUjrM', self.user)
+        video3 = create_video('test3', 'test3', 'https://www.youtube.com/watch?v=DviID8Ni7Ns', self.user)
 
-        create_like(self.user, video1, True)
-        create_like(self.user, video2, True)
-        create_like(self.user, video3, False)
+        create_like(self.user, video1, "LIKE")
+        create_like(self.user, video2, "LIKE")
+        create_like(self.user, video3, "DISLIKE")
 
         create_comment('test', self.user, video1)
 

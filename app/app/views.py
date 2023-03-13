@@ -1,5 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import ListView, TemplateView, DeleteView, UpdateView
@@ -7,7 +7,7 @@ from django.views.generic.edit import CreateView
 
 from .forms import CommentForm
 from .models import Video, History
-from .utils import save_history, get_actual_date, save_like, get_random, get_popular_videos
+from .utils import get_actual_date, get_popular_videos
 
 
 # Video views
@@ -19,28 +19,24 @@ class VideoCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        form.instance.likes = 0
-        form.instance.dislike = 0
-        video = form.cleaned_data['video'].split('watch?v=')
-        form.instance.video = video[1]
         return super().form_valid(form)
 
 
 class VideoDetailView(View):
 
     def get(self, request, *args, **kwargs):
-        video = Video.objects.get(video=kwargs['pk'])
+        video = get_object_or_404(Video, video=kwargs['pk'])
 
         if kwargs.get('like'):
-            save_like(video, request.user, kwargs['like'])
+            Video.save_like(video, request.user, kwargs['like'])
             return redirect('video_detail', pk=video.video)
 
-        save_history(video, request.user, get_actual_date())
+        Video.save_history(video, request.user, get_actual_date())
         return render(request, 'video/video_detail.html', {'video': video, 'form': CommentForm()})
 
     def post(self, request, *args, **kwargs):
-        video = Video.objects.get(video=kwargs['pk'])
-        save_history(video, request.user, get_actual_date())
+        video = get_object_or_404(Video, video=kwargs['pk'])
+        Video.save_history(video, request.user, get_actual_date())
 
         comment_form = CommentForm(request.POST)
         if self.request.user.is_authenticated:
