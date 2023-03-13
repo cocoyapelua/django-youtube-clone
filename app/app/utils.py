@@ -11,7 +11,7 @@ def get_actual_date():
 
 def get_random(list_obj, n=5):
     list_obj = list(list_obj)
-    if len(list_obj) > 4:
+    if len(list_obj) >= n:
         return random.sample(list_obj, n)
     else:
         return random.sample(list_obj, len(list_obj))
