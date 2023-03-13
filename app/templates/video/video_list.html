@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}My Videos{% endblock %}
+
+{% block content %}
+    <h1>My Videos</h1>
+    <div class="container">
+        <div class="row">
+            {% for video in videos %}
+                <div class="col-sm-4 pt-sm-4">
+                    <div class="card h-100">
+                        <a href="{{ video.get_absolute_url }}">
+                            <img src="https://img.youtube.com/vi/{{ video.video }}/maxresdefault.jpg"
+                                 class="card-img-top" alt="..">
+                        </a>
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">{{ video.title }}</h5>
+                            <p class="card-text">{{ video.description|truncatewords:30 }}</p>
+                            <a href="{{ video.get_absolute_url }}" class="mt-auto btn btn-primary">Watch
+                                Video</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% include "paginator.html" %}
+    </div>
+{% endblock %}

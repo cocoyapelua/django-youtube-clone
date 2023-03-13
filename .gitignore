@@ -1,0 +1,14 @@
+.idea/
+app/__pycache__/
+app/accounts/__pycache__/
+app/accounts/migrations/__pycache__/
+app/accounts/migrations/*.py
+app/app/__pycache__/
+app/app/migrations/__pycache__/
+app/app/migrations/*.py
+app/pages/__pycache__/
+app/pages/migrations/__pycache__/
+app/pages/migrations/*.py
+app/staticfiles/
+app/youtube_clone/__pycache__/
+app/db.sqlite3

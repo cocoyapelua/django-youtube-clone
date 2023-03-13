@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}{{ video.title }}{% endblock %}
+
+{% block content %}
+
+    <h2 class="pb-sm-2">{{ video.title }}</h2>
+    <div class="container ">
+        <div class="card mb-3">
+            <div class="ratio ratio-16x9">
+                <iframe width="560" height="315" class="card-img-top"
+                        src="https://www.youtube.com/embed/{{ video.video }}"
+                        title="YouTube video player"
+                        allow="accelerometer; autoplay;
+            clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
+                </iframe>
+            </div>
+            <div class="card-body">
+                <div class="row pb-sm-2">
+                    <div class="col-10">
+                        <h5 class="card-title">{{ video.title }}</h5>
+                    </div>
+                    {% if user.is_authenticated %}
+                        <div class="col-2 text-end">
+                            <a href="{% url 'video_like' pk=video.video like='like' %}">Like {{ video.get_likes }}</a>
+                            <a href="{% url 'video_like' pk=video.video like='dislike' %}">Dislike {{ video.get_dislikes }}</a>
+                        </div>
+                    {% else %}
+                        <div class="col-2 text-end">
+                            Like {{ video.get_likes }}
+                            Dislike {{ video.get_dislikes }}
+                        </div>
+                    {% endif %}
+                </div>
+                <p class="card-text">{{ video.description }}</p>
+                <p class="card-text"><small class="text-muted">Posted: {{ video.date }}</small></p>
+            </div>
+        </div>
+    </div>
+
+    {% if user.is_authenticated %}
+        <form method="post">{% csrf_token %}
+            {{ form|crispy }}
+            <button class="btn btn-success ml-2" type="submit">Save</button>
+        </form>
+    {% endif %}
+
+    <h4>Comments</h4>
+    {% for comment in video.comment_set.all %}
+        <p>{{ comment.get_user }} &middot; {{ comment }}</p>
+    {% endfor %}
+
+{% endblock %}
