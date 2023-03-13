@@ -14,7 +14,7 @@ def get_random(list_obj, n=5):
     if len(list_obj) > 4:
         return random.sample(list_obj, n)
     else:
-        return list_obj
+        return random.sample(list_obj, len(list_obj))
 
 
 def save_history(video, user, actual_date):
