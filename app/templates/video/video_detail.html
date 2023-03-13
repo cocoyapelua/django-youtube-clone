@@ -16,6 +16,12 @@
                 </iframe>
             </div>
             <div class="card-body">
+                {% if user.is_authenticated and video.user == user %}
+                    <p class="mt-auto">
+                        <a href="{% url 'video_delete' video.video %}" class="mt-auto">Delete</a>
+                        <a href="{% url 'video_update' video.video %}" class="mt-auto">Update</a>
+                    </p>
+                {% endif %}
                 <div class="row pb-sm-2">
                     <div class="col-10">
                         <h5 class="card-title">{{ video.title }}</h5>
