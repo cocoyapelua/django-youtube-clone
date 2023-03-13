@@ -12,3 +12,5 @@ app/pages/migrations/*.py
 app/staticfiles/
 app/youtube_clone/__pycache__/
 app/db.sqlite3
+env/.env
+env/.env.db
