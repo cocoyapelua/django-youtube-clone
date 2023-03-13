@@ -70,8 +70,8 @@ class PopularTest(TestCase):
         response = self.client.get(reverse('popular'))
         self.assertEqual(response.status_code, 200)
         self.assertQuerysetEqual(response.context['popular_videos'],
-                                 [{'date': 3, 'popularity': 11,'video': video1},
-                                  {'date': 3, 'popularity': 10,'video': video2},
-                                  {'date': 3, 'popularity': -5,'video': video3}])
+                                 [{'date': 3, 'popularity': 111,'video': video1},
+                                  {'date': 3, 'popularity': 110,'video': video2},
+                                  {'date': 3, 'popularity': 95,'video': video3}])
 
 

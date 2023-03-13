@@ -63,7 +63,9 @@ def likes_score(video):
 
 def video_score(video):
     score = likes_score(video) + dislikes_score(video) + comments_score(video)
-    if video.date == date.today():
+    video = video.date.strftime('%Y-%m-%d')
+    today = date.today().strftime('%Y-%m-%d')
+    if video == today:
         score += 100
     return score
 
