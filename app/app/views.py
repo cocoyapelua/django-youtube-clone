@@ -1,8 +1,8 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import ListView, TemplateView
+from django.views.generic import ListView, TemplateView, DeleteView, UpdateView
 from django.views.generic.edit import CreateView
 
 from .forms import CommentForm
@@ -53,6 +53,32 @@ class VideoDetailView(View):
                 return redirect('video_detail', pk=video.video)
 
         return render(request, 'video/video_detail.html', {'video': video, 'form': CommentForm()})
+
+
+class VideoUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Video
+    fields = ['title', 'description', 'video']
+    template_name = 'video/video_update.html'
+
+    def test_func(self):
+        video = self.get_object()
+        return self.request.user == video.user
+
+    def get_object(self, queryset=None):
+        return Video.objects.get(video=self.kwargs['pk'])
+
+
+class VideoDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Video
+    template_name = 'video/video_delete.html'
+    success_url = reverse_lazy('video_list')
+
+    def test_func(self):
+        video = self.get_object()
+        return self.request.user == video.user
+
+    def get_object(self, queryset=None):
+        return Video.objects.get(video=self.kwargs['pk'])
 
 
 class VideoListView(LoginRequiredMixin, ListView):

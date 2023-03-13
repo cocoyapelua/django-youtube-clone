@@ -14,10 +14,13 @@
                                  class="card-img-top" alt="..">
                         </a>
                         <div class="card-body d-flex flex-column">
+                            <p class="mt-auto">
+                                <a href="{% url 'video_delete' video.video %}" class="mt-auto">Delete</a>
+                                <a href="{% url 'video_update' video.video %}" class="mt-auto">Update</a>
+                            </p>
                             <h5 class="card-title">{{ video.title }}</h5>
                             <p class="card-text">{{ video.description|truncatewords:30 }}</p>
-                            <a href="{{ video.get_absolute_url }}" class="mt-auto btn btn-primary">Watch
-                                Video</a>
+                            <a href="{{ video.get_absolute_url }}" class="mt-auto btn btn-primary">Watch Video</a>
                         </div>
                     </div>
                 </div>

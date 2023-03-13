@@ -7,7 +7,7 @@ class Video(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
-    video = models.CharField(max_length=255, default='https://www.youtube.com/watch?v=C-ktxCmfTOs')
+    video = models.CharField(max_length=255, default='https://www.youtube.com/watch?v=C-ktxCmfTOs', unique=True)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE
